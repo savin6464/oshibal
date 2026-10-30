@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Disk Scheduling Solver</title>
+  <meta name="description" content="Type a disk I/O request stream and see FCFS, SSTF, LOOK, C-SCAN and C-LOOK graphs." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="top">
+    <h1>Disk Scheduling Solver</h1>
+    <p class="sub">FCFS · SSTF · LOOK · C-SCAN · C-LOOK</p>
+  </header>
+
+  <main>
+    <form id="form" class="panel" autocomplete="off" novalidate>
+      <label class="field">
+        <span>Stream of track access requests</span>
+        <input id="requests" type="text" inputmode="text" enterkeyhint="go"
+               placeholder="98, 183, 37, 122, 14, 124, 65, 67"
+               value="98, 183, 37, 122, 14, 124, 65, 67" />
+        <small>Separate with commas or spaces</small>
+      </label>
+
+      <div class="row">
+        <label class="field">
+          <span>How many tracks</span>
+          <input id="tracks" type="number" inputmode="numeric" min="1" step="1" value="200" />
+          <small>Tracks are 0 to N−1</small>
+        </label>
+        <label class="field">
+          <span>Current track</span>
+          <input id="head" type="number" inputmode="numeric" min="0" step="1" value="53" />
+        </label>
+      </div>
+
+      <div class="row">
+        <label class="field">
+          <span>Head direction (LOOK / C-SCAN / C-LOOK)</span>
+          <select id="dir">
+            <option value="up">Toward higher tracks</option>
+            <option value="down">Toward lower tracks</option>
+          </select>
+        </label>
+        <label class="check">
+          <input id="countJump" type="checkbox" checked />
+          <span>Count the return jump in total movement (C-SCAN / C-LOOK)</span>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="primary">Solve</button>
+        <button type="button" id="example" class="ghost">Example</button>
+      </div>
+      <p id="error" class="error" role="alert" hidden></p>
+    </form>
+
+    <section id="summary" class="panel" hidden>
+      <h2>Total head movement</h2>
+      <div class="table-wrap"><table id="summaryTable"></table></div>
+    </section>
+
+    <section id="results"></section>
+  </main>
+
+  <footer>Graph: track number on the left, time (step) at the bottom. Dashed line = return jump.</footer>
+  <script src="app.js"></script>
+</body>
+</html>
